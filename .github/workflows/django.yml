@@ -23,11 +23,17 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        sudo apt-get -y install libpq-dev cmake build-essential
+        sudo apt-get -y install libpq-dev cmake build-essential python3-devel
         python -m pip install --upgrade pip
-        pip -q install pipenv
-        pipenv install --skip-lock
-    - name: Run Tests
-      run: |
-        pipenv run python manage.py test
-        pipenv run python manage.py check
+    - name: Install python dependecies
+      uses: VaultVulp/action-pipenv@v2.0.1
+      with:
+        command: install -d # Install all dependencies, including development ones
+    - name: Test
+      uses: VaultVulp/action-pipenv@v2.0.1
+      with:
+        command: python manage.py test
+    - name: Check
+      uses: VaultVulp/action-pipenv@v2.0.1
+      with:
+        command: python manage.py check
