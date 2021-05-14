@@ -7,7 +7,6 @@ verify_ssl = true
 flake8 = "*"
 autopep8 = "*"
 pytest = "*"
-wheel = "*"
 
 [packages]
 django = "==2.2.20"
@@ -22,6 +21,7 @@ requests = "*"
 mypy = "*"
 flake8 = "*"
 gensim = "*"
+wheel = "*"
 
 [requires]
 python_version = "3.7"
