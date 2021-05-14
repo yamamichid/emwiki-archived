@@ -23,7 +23,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        sudo apt-get -y install libpq-dev cmake build-essential
+        sudo apt-get -y install libpq-dev cmake build-essential python3-dev
         python -m pip install --upgrade pip
     - name: Install python dependecies
       uses: VaultVulp/action-pipenv@v2.0.1
