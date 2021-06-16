@@ -22,7 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        apt install cmake libpq-dev python3-dev libssl-dev libffi-dev
+        sudo apt install cmake libpq-dev python3-dev libssl-dev libffi-dev
         python -m pip install --upgrade pip
         pip -q install pipenv
     - name: Install python dependencies
