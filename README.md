@@ -29,6 +29,16 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 ## 4 Install
 ### 
 ```
+# Update ,
+sudo apt update
+sudo apt upgrade
+
+sudo apt install python3-pip
+
+$ python
+$ pip install pipenv
+# uwsgi
+$ sudo apt install build-essential python-dev
 $ apt install cmake libpq-dev python3-dev libssl-dev libffi-dev
 
 # check python version
@@ -38,9 +48,66 @@ $ python --version
 $ git submodule update --init --recursive
 ```
 
+```bash
+# Run on project directory(same with .git/)
+
+# Update
+$ sudo apt update
+
+# Install dependencies
+$ sudo apt install cmake libpq-dev python3-dev libssl-dev libffi-dev
+
+# Create virtual environment of develop
+$ pipenv sync --dev
+
+# Entry virtual environment shell and load .env variables
+$ pipenv shell
+
+# Configure variables
+$ vi .env
+
+# Create PostgreSQL
+$ docker compose up -f develop/docker-compose.yml -d
+
+# Migrate
+$ python manage.py migrate
+
+# Build local files
+$ python manage.py build_htmlizedmml
+$ python manage.py build_mmlreference
+$ python manage.py build_search_data
+
+# Load initial data
+$ python manage.py load_articles
+$ python manage.py load_symbols
+
+# Create superuser
+$ python manage.py createsuperuser
+
+# Run server
+$ python manage.py runserver
+
+
+# Deploy start
+daichi@DESKTOP-R7VTCIE:~/workspace/emwiki$ docker exec deploy_python_1 sh /emwiki/deploy/start.sh
+Loading .env environment variables...
+/root/.local/share/virtualenvs/emwiki-upmIhjXh/bin/python: can't open file '/root/emwiki/emwiki/manage.py': [Errno 2] No such file or directory
+Loading .env environment variables...
+/root/.local/share/virtualenvs/emwiki-upmIhjXh/bin/python: can't open file '/root/emwiki/emwiki/manage.py': [Errno 2] No such file or directory
+Loading .env environment variables...
+/root/.local/share/virtualenvs/emwiki-upmIhjXh/bin/python: can't open file '/root/emwiki/emwiki/manage.py': [Errno 2] No such file or directory
+Loading .env environment variables...
+/root/.local/share/virtualenvs/emwiki-upmIhjXh/bin/python: can't open file '/root/emwiki/emwiki/manage.py': [Errno 2] No such file or directory
+Loading .env environment variables...
+/root/.local/share/virtualenvs/emwiki-upmIhjXh/bin/python: can't open file '/root/emwiki/emwiki/manage.py': [Errno 2] No such file or directory
+Loading .env environment variables...
+/root/.local/share/virtualenvs/emwiki-upmIhjXh/bin/python: can't open file '/root/emwiki/emwiki/manage.py': [Errno 2] No such file or directory
+daichi@DESKTOP-R7VTCIE:~/workspace/emwiki$ docker exec deploy_python_1 sh /emwiki/deploy/start.sh
+```
+
 ### 4.1 ホストの準備
 + docker, docker-composeをインストール
-  + [Get Docker](https://docs.docker.com/get-docker/)
+  + [Docker Desktop WSL 2 backend](https://docs.docker.com/docker-for-windows/wsl/)
 
 + GitHubで、[mimosa-project/emwiki](https://github.com/mimosa-project/emwiki)と[mimosa-project/emwiki-contents](https://github.com/mimosa-project/emwiki-contents)をForkする<br>
 + emwikiをgit cloneする<br>
