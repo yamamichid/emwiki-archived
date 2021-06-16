@@ -27,7 +27,6 @@ jobs:
         pip -q install pipenv
     - name: Install python dependencies
       run: |
-        python ./emparser/setup.py build
         pipenv sync
     - name: Test
       run: |
