@@ -1,14 +1,15 @@
-FROM python:3.7
-
+FROM python:3.8.5
 
 ENV PYTHONUNBUFFERED 1
 
 # Install 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install cmake libpq-dev nkf unzip && \
+    apt-get -y install cmake libpq-dev && \
     pip -q install pipenv
-COPY . /workspace/
-WORKDIR /workspace/
-RUN ["sh", "/workspace/initialize.sh", "prod1"]
-ENTRYPOINT ["sh", "/workspace/initialize.sh", "prod2"]
+
+# Checkout sourcecode
+COPY . /emwiki/
+WORKDIR /emwiki
+RUN pipenv sync
+ENTRYPOINT ["sh", "/emwiki/deploy/entrypoint.sh"]

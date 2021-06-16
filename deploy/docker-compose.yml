@@ -4,10 +4,11 @@ services:
   python:
     build:
       context: ..
-      dockerfile: ./.prodcontainer/Dockerfile
+      dockerfile: ./deploy/Dockerfile
+    container_name: emwiki-python-deploy
     volumes:
-      - static-volume:/workspace/emwiki/staticfiles
-      - media-volume:/workspace/emwiki/mediafiles
+      - static-volume:/emwiki/staticfiles
+      - media-volume:/emwiki/mediafiles
     expose:
       - "8001"
     depends_on:
@@ -15,6 +16,7 @@ services:
   db:
     image: postgres:latest
     restart: unless-stopped
+    container_name: emwiki-db-deploy
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     environment:
@@ -25,6 +27,7 @@ services:
       - "5432"
   nginx:
     image: nginx:latest
+    container_name: emwiki-nginx-deploy
     expose:
       - "8000"
     volumes:
@@ -36,6 +39,7 @@ services:
       - python
   https-portal:
     image: steveltn/https-portal:1
+    container_name: emwiki-https-portal-deploy
     ports:
       - '80:80'
       - '443:443'
