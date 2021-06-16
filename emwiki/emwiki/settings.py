@@ -15,22 +15,16 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY is written at localsettings.py
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+if os.environ.get('DEBUG') == 'True':
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS')).split(' ')
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'article.apps.ArticleConfig',
@@ -77,10 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'emwiki.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get("SQL_ENGINE", 'django.db.backends.sqlite3'),
@@ -93,8 +83,6 @@ DATABASES = {
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -111,7 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
 
 
 # Internationalization
@@ -159,40 +146,51 @@ if DEBUG is True:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-CONTENTS_DIR = os.path.join(BASE_DIR, 'contents')
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MIZARFILE_DIR = os.path.join(BASE_DIR, 'mizarfiles')
-MIZFILE_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents', 'mml')\
+# Additional settings
 
-LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(MIZARFILE_DIR, 'emwiki-contents')
+## Mizar version
+MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
+
+## emwiki-content
+LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(BASE_DIR, 'emwiki-contents')
 REMOTE_COMMENT_REPOSITORY_URL = os.environ.get('COMMENT_REPOSITORY_URL')
 COMMENT_COMMIT_BRANCH = os.environ.get('COMMENT_COMMIT_BRANCH')
 
-RAW_HTMLIZEDMML_DIR = os.path.join(MIZARFILE_DIR, 'htmlized_mml')
+## Directory configurations
+### mmlfiles
+MMLFIELS_DIR = os.path.join(BASE_DIR, 'mmlfiles')
+ABSTR_DIR = os.path.join(MMLFIELS_DIR, 'abstr')
+FMBIBS_DIR = os.path.join(MMLFIELS_DIR, 'fmbibs')
+RAW_HTMLIZEDMML_DIR = os.path.join(MMLFIELS_DIR, 'html')
+MIZFILE_DIR = os.path.join(MMLFIELS_DIR, 'mml')
+MML_INI_PATH = os.path.join(MMLFIELS_DIR, 'mml.ini')
+MML_LAR_PATH = os.path.join(MMLFIELS_DIR, 'mml.lar')
+MML_VCT_PATH = os.path.join(MMLFIELS_DIR, 'mml.vct')
+
+### Article
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'article', 'templates', 'article', 'htmlized_mml')
 
+### Symbol
 PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
 
-ABSTR_DIR = os.path.join(MIZARFILE_DIR, 'abstr')
-VCT_DIR = os.path.join(MIZARFILE_DIR, 'vct',)
+### Search
 DATA_FOR_SEARCH_DIR = os.path.join(BASE_DIR, 'search', 'data')
 
+### Graph
 GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
 GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')
 
+## Tests
 TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
-
 TEST_OUTPUTS_DIR = os.path.join(TEST_DATA_DIR, 'outputs')
 TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_htmlized_mml')
 TEST_OUTPUT_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_symbol_html')
-
 TEST_RAW_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml')
 TEST_MIZFILE_DIR = os.path.join(TEST_DATA_DIR, 'mml_commented')
-
 TEST_RAW_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'raw_htmlized_mml')
 TEST_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_DATA_DIR, 'product_htmlized_mml')
-
 TEST_PRODUCT_SYMBOLHTML_DIR = os.path.join(TEST_DATA_DIR, 'product_symbol_html')
-
 TEST_DOWNLOAD_MML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'mml_downloaded')
 TEST_DOWNLOAD_HTML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'html_downloaded')

@@ -10,7 +10,7 @@ from emparser.preprocess import Lexer
 from django.conf import settings
 
 lexer = Lexer()
-lexer.load_symbol_dict(os.path.join(settings.VCT_DIR, 'mml.vct'))
+lexer.load_symbol_dict(settings.MML_VCT_PATH)
 lexer.build_len2symbol()
 RESERVED_WORDS = set(["according", "aggregate", "all", "and", "antonym", "are", "as", "associativity", "assume", "asymmetry", "attr",
                       "be", "begin", "being", "by", "canceled", "case", "cases", "cluster", "coherence", "commutativity", "compatibility",
