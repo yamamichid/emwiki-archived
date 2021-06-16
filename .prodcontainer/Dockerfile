@@ -3,20 +3,12 @@ FROM python:3.7
 
 ENV PYTHONUNBUFFERED 1
 
-# Install emparser
-RUN apt -y update
-RUN apt -y upgrade
-RUN apt -y install cmake
-RUN pip -q install pipenv
-RUN git clone --recursive https://github.com/mimosa-project/emparser.git
-WORKDIR /emparser
-RUN pipenv install --system --skip-lock
-RUN python setup.py install
-
+# Install 
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get -y install cmake libpq-dev nkf unzip && \
+    pip -q install pipenv
 COPY . /workspace/
-# Install dependencies global
-WORKDIR /workspace
-RUN pipenv install --system --skip-lock
-WORKDIR /
-
-ENTRYPOINT ["sh", "/workspace/.prodcontainer/entrypoint.sh"]
+WORKDIR /workspace/
+RUN ["sh", "/workspace/initialize.sh", "prod1"]
+ENTRYPOINT ["sh", "/workspace/initialize.sh", "prod2"]
