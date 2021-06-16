@@ -27,6 +27,17 @@ This Web application can write a TeX-format description in the Mizar Mathmatical
 + Docker only (本番用)
 
 ## 4 Install
+### 
+```
+$ apt install cmake libpq-dev python3-dev libssl-dev libffi-dev
+
+# check python version
+$ python --version
+3.8.5
+
+$ git submodule update --init --recursive
+```
+
 ### 4.1 ホストの準備
 + docker, docker-composeをインストール
   + [Get Docker](https://docs.docker.com/get-docker/)

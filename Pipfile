@@ -11,9 +11,9 @@ wheel = "*"
 isort = "*"
 
 [packages]
-django = "==2.2.20"
-psycopg2 = ">=2.7,<3.0"
-uwsgi = "==2.0.17"
+django = ">=3.2, <4.0"
+psycopg2 = "*"
+uwsgi = "*"
 lxml = "*"
 natsort = "*"
 tqdm = "*"
@@ -27,4 +27,4 @@ emparser = {path = "./emparser"}
 python-levenshtein = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8.5"
