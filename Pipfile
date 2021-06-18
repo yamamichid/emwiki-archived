@@ -27,4 +27,4 @@ emparser = {path = "./emparser"}
 python-levenshtein = "*"
 
 [requires]
-python_version = "3.8.5"
+python_version = "3.7"
