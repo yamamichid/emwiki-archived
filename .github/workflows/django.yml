@@ -32,6 +32,7 @@ jobs:
         pip -q install pipenv
     - name: Build emparser
       run: |
+        git submodule update
         pipenv install
         pipenv run python setup.py build
       working-directory: ./emparser
