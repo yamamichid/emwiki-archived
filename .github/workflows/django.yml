@@ -38,15 +38,11 @@ jobs:
         pipenv run python setup.py build
     - name: Install python dependencies with deploy environment
       run: |
-        export PIPENV_DOTENV_LOCATION=./deploy/.env
-        pipenv install --dev
+        pipenv install --dev --deploy
     - name: Setup emwiki-contents
       working-directory: ./emwiki
       run: |
         git clone https://github.com/mimosa-project/emwiki-contents.git
-    - name: Load deploy environment
-      run: |
-        . ./deploy/.env
     - name: Test
       run: |
         pipenv run python ./emwiki/manage.py test
@@ -55,5 +51,6 @@ jobs:
         pipenv run flake8
     - name: Check django deployment settings
       run: |
-        python ./emwiki/manage.py check --deploy
+        export PIPENV_DOTENV_LOCATION=./deploy/.env
+        pipenv run python ./emwiki/manage.py check --deploy
   
