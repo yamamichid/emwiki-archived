@@ -1,10 +1,8 @@
 import glob
 import os
 import shutil
-from collections import OrderedDict
 
 from django.conf import settings
-from lxml import html
 from tqdm import tqdm
 
 

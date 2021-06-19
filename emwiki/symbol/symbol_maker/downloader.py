@@ -3,9 +3,9 @@
 __author__ = 'nakasho'
 
 import urllib.request
-from urllib.request import FileHandler
 from html.parser import HTMLParser
 import os
+
 
 class Downloader(HTMLParser):
     def __init__(self):
@@ -31,6 +31,7 @@ class Downloader(HTMLParser):
         for i, filename in enumerate(self.files):
             print("download {}/{}".format(i, len(self.files)))
             urllib.request.urlretrieve(self._path + '/' + filename, to_dir + '/' + filename)
+
 
 if __name__ == "__main__":
     downloader = Downloader()

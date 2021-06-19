@@ -148,15 +148,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Additional settings
 
-## Mizar version
+# Mizar version
 MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
 
-## emwiki-content
+# emwiki-content
 emwiki_contents_repo = Repo(os.path.join(BASE_DIR, 'emwiki-contents'))
 emwiki_contents_repo.git.checkout("mml_commented")
 
-## Directory configurations
-### mmlfiles
+# Directory configurations
+# mmlfiles
 MMLFIELS_DIR = os.path.join(BASE_DIR, 'mmlfiles')
 ABSTR_DIR = os.path.join(MMLFIELS_DIR, 'abstr')
 FMBIBS_DIR = os.path.join(MMLFIELS_DIR, 'fmbibs')
@@ -166,20 +166,20 @@ MML_INI_PATH = os.path.join(MMLFIELS_DIR, 'mml.ini')
 MML_LAR_PATH = os.path.join(MMLFIELS_DIR, 'mml.lar')
 MML_VCT_PATH = os.path.join(MMLFIELS_DIR, 'mml.vct')
 
-### Article
+# Article
 PRODUCT_HTMLIZEDMML_DIR = os.path.join(BASE_DIR, 'article', 'templates', 'article', 'htmlized_mml')
 
-### Symbol
+# Symbol
 PRODUCT_SYMBOLHTML_DIR = os.path.join(BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
 
-### Search
+# Search
 DATA_FOR_SEARCH_DIR = os.path.join(BASE_DIR, 'search', 'data')
 
-### Graph
+# Graph
 GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
 GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')
 
-## Tests
+# Tests
 TEST_DATA_DIR = os.path.join(BASE_DIR, 'testdata')
 TEST_OUTPUTS_DIR = os.path.join(TEST_DATA_DIR, 'outputs')
 TEST_OUTPUT_PRODUCT_HTMLIZEDMML_DIR = os.path.join(TEST_OUTPUTS_DIR, 'product_htmlized_mml')
