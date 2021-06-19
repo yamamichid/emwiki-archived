@@ -11,6 +11,8 @@ services:
       - media-volume:/emwiki/mediafiles
     expose:
       - "8001"
+    env_file:
+      - ./deploy/.env
     depends_on:
       - db
   db:

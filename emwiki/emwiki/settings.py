@@ -11,20 +11,21 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from git import Repo
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-85qwk5p1@5d=b*+p3y6q3h+k+1*%dfr%m%$^(0wv=54(%0$nn%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('DEBUG') == 'True':
+if bool(int(os.environ.get('DEBUG', "0"))):
     DEBUG = True
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS')).split(' ')
+ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS'), "loclahost").split(' ')
 
 INSTALLED_APPS = [
     'article.apps.ArticleConfig',
@@ -73,10 +74,10 @@ WSGI_APPLICATION = 'emwiki.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get("SQL_ENGINE", 'django.db.backends.sqlite3'),
-        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER": os.environ.get("SQL_USER", "user"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        'ENGINE': os.environ.get("SQL_ENGINE", 'django.db.backends.postgresql'),
+        "NAME": os.environ.get("SQL_DATABASE", 'postgres'),
+        "USER": os.environ.get("SQL_USER", "postgres"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "postgres"),
         "HOST": os.environ.get("SQL_HOST", "localhost"),
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
@@ -97,9 +98,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -154,9 +152,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MIZAR_VERSION = os.environ.get("MIZAR_VERSION", 'default')
 
 ## emwiki-content
-LOCAL_COMMENT_REPOSITORY_DIR = os.path.join(BASE_DIR, 'emwiki-contents')
-REMOTE_COMMENT_REPOSITORY_URL = os.environ.get('COMMENT_REPOSITORY_URL')
-COMMENT_COMMIT_BRANCH = os.environ.get('COMMENT_COMMIT_BRANCH')
+emwiki_contents_repo = Repo(os.path.join(BASE_DIR, 'emwiki-contents'))
+emwiki_contents_repo.git.checkout("mml_commented")
 
 ## Directory configurations
 ### mmlfiles
