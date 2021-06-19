@@ -43,15 +43,14 @@ jobs:
       working-directory: ./emwiki
       run: |
         git clone https://github.com/mimosa-project/emwiki-contents.git
-    - name: Test
-      run: |
-        pipenv shell
-        cd ./emwiki
-        coverage run
-        coverage report
     - name: Check codestyle
       run: |
         pipenv run flake8
+    - name: Test
+      working-directory: ./emwiki
+      run: |
+        pipenv run coverage run
+        pipenv run coverage report
     - name: Check django deployment settings
       run: |
         export PIPENV_DOTENV_LOCATION=./deploy/.env
