@@ -9,7 +9,6 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/emwiki/manage.py",
-            "python": "/usr/local/bin/python",
             "console": "integratedTerminal",
             "args": [
                 "runserver",
