@@ -31,14 +31,18 @@ jobs:
         python -m pip install --upgrade pip
         pip -q install pipenv
     - name: Build emparser
+      working-directory: ./emparser
       run: |
         git submodule update --init --recursive
         pipenv install
         pipenv run python setup.py build
-      working-directory: ./emparser
     - name: Install python dependencies
       run: |
         pipenv sync
+    - name: Setup emwiki-contents
+      working-directory: ./emwiki
+      run: |
+        git clone https://github.com/mimosa-project/emwiki-contents.git
     - name: Test
       run: |
         pipenv run python ./emwiki/manage.py test
