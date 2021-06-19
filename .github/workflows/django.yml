@@ -29,7 +29,7 @@ jobs:
       run: |
         sudo apt install cmake libpq-dev python3-dev libssl-dev libffi-dev
         python -m pip install --upgrade pip
-        pip -q install pipenv
+        pip -q install pipenv --upgrade
     - name: Build emparser
       working-directory: ./emparser
       run: |
