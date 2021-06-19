@@ -45,7 +45,10 @@ jobs:
         git clone https://github.com/mimosa-project/emwiki-contents.git
     - name: Test
       run: |
-        pipenv run python ./emwiki/manage.py test
+        pipenv shell
+        cd ./emwiki
+        coverage run
+        coverage report
     - name: Check codestyle
       run: |
         pipenv run flake8
