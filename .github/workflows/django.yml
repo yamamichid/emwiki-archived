@@ -49,6 +49,4 @@ jobs:
     - name: Check codestyle
       run: |
         pipenv run flake8
-    - name: Check deployment security
-      run: |
-        pipenv run python ./emwiki/manage.py check
+  
