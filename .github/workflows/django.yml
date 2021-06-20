@@ -1,0 +1,71 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, ]
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - "5432:5432"
+        # postgres が起動するまで待機するようにヘルスチェックを設定する
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+        submodules: true
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        sudo apt install cmake libpq-dev python3-dev libssl-dev libffi-dev
+        python -m pip install --upgrade pip
+        pip -q install pipenv --upgrade
+    - name: Build emparser
+      working-directory: ./emparser
+      run: |
+        git submodule update --init --recursive
+        pipenv install
+        pipenv run python setup.py build
+    - name: Install python dependencies with deploy environment
+      run: |
+        pipenv sync --dev
+    - name: Setup emwiki-contents
+      working-directory: ./emwiki
+      run: |
+        git clone https://github.com/mimosa-project/emwiki-contents.git
+    - name: Check codestyle
+      run: |
+        pipenv run flake8
+    - name: Test
+      working-directory: ./emwiki
+      run: |
+        pipenv run coverage run
+        pipenv run coverage report
+    - name: Check django deployment settings
+      run: |
+        export PIPENV_DOTENV_LOCATION=./deploy/.env
+        pipenv run python ./emwiki/manage.py check --deploy
