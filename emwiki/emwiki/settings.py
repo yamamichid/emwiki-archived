@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-85qwk5p1@5d=b*+p3y6q3h+k+1*%dfr%m%$^(0wv=54(%0$nn%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if bool(int(os.environ.get('DEBUG', "0"))):
+if bool(int(os.environ.get('DEBUG', "1"))):
     DEBUG = True
 else:
     DEBUG = False
@@ -78,7 +78,7 @@ DATABASES = {
         "NAME": os.environ.get("SQL_DATABASE", 'postgres'),
         "USER": os.environ.get("SQL_USER", "postgres"),
         "PASSWORD": os.environ.get("SQL_PASSWORD", "postgres"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "HOST": os.environ.get("SQL_HOST", "db"),
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
