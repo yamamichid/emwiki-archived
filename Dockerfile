@@ -11,8 +11,6 @@ RUN apt-get -y update && \
 
 # Checkout sourcecode
 COPY . /emwiki/
-WORKDIR /emwiki
-RUN git submodule update --init --recursive
 
 # Clone emwiki-contents
 RUN git clone https://github.com/mimosa-project/emwiki-contents.git /emwiki/emwiki/emwiki-contents
