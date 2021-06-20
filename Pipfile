@@ -24,6 +24,7 @@ requests = "*"
 mypy = "*"
 flake8 = "*"
 gensim = "*"
+wheel = "*"
 emparser = {path = "./emparser"}
 python-levenshtein = "*"
 
