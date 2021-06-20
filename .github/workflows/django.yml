@@ -18,7 +18,7 @@ jobs:
         submodules: true
     - name: Create docker image
       run: |
-        docker compose up -d
+        docker-compose up -d
     - name: Check codestyle
       run: |
          docker exec pipenv run flake8
