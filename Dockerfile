@@ -11,6 +11,7 @@ RUN apt-get -y update && \
 
 # Checkout sourcecode
 COPY . /emwiki/
+WORKDIR /emwiki
 RUN git submodule update --init --recursive
 
 # Clone emwiki-contents
