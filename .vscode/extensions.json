@@ -1,6 +1,9 @@
 {
     "recommendations": [
         "njpwerner.autodocstring",
-        "ms-python.python"
+        "ms-python.python",
+        "batisteo.vscode-django",
+        "ms-python.vscode-pylance",
+        "visualstudioexptteam.vscodeintellicode"
     ]
 }
