@@ -82,7 +82,7 @@ $ python emwiki/manage.py migrate
 $ sh start.sh
 
 # Create superuser
-$ python manage.py createsuperuser
+$ python emwiki/manage.py createsuperuser
 ```
 
 ## 5 Runsever
