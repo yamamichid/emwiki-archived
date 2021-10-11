@@ -29,6 +29,10 @@ gensim = "*"
 emparser = {path = "./emparser"}
 python-levenshtein = "*"
 pydot = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+django-rest-framework = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.7"

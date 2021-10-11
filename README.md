@@ -214,6 +214,22 @@ Add `--compatibility` when you create development containers(because `deploy` ca
 ```Bash
 docker-compose --compatibility up -d
 ```
+### How to update Vue CLI
+
+Install Vue CLI
+```bash
+npm install -g @vue/cli
+```
+
+Upgrade Vue CLI
+```bash
+npm update -g @vue/cli
+```
+
+Upgrade packages
+```bash
+vue upgrade
+```
 
 ## 9 Licence
 

@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +117,10 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'mmlfiles', 'article', 'templates')
+]
 MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
@@ -136,6 +141,18 @@ else:
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
     EMAIL_USE_TLS = strtobool(os.environ.get("EMAIL_USE_TLS"))
 
+# Django REST framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 # Additional settings(Django framework doesn't refer these settings)
 
 # Directory configurations
@@ -155,7 +172,7 @@ PRODUCT_HTMLIZEDMML_DIR = os.path.join(
 PRODUCT_SYMBOLHTML_DIR = os.path.join(
     BASE_DIR, 'symbol', 'templates', 'symbol', 'symbol_html')
 # Search
-SEARCH_INDEX_DIR = os.path.join(BASE_DIR, 'search', 'index')
+SEARCH_INDEX_DIR = os.path.join(BASE_DIR, 'mmlfiles', 'search', 'index')
 # Graph
 GRAPH_DIR = os.path.join(BASE_DIR, 'graph')
 GRAPH_ELS_DIR = os.path.join(GRAPH_DIR, 'static', 'graph')

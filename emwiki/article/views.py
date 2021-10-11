@@ -3,14 +3,32 @@ import os
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .models import Article, Comment
+from rest_framework import viewsets
+from .serializers import ArticleSerializer
+
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all().order_by('name')
+    serializer_class = ArticleSerializer
+
+
+class TestView(View):
+    @method_decorator(ensure_csrf_cookie)
+    def get(self, request):
+        return JsonResponse({'username': request.user.username})
+
+    def post(self, request):
+        print(request.user.username)
+        return JsonResponse({'status': 'OK'})
 
 
 class ArticleView(View):
