@@ -1,4 +1,4 @@
-export interface SymbolModel {
+export default interface SymbolModel {
     name: string;
     filename: string;
 }

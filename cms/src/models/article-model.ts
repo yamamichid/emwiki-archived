@@ -1,3 +1,3 @@
-export interface ArticleModel {
+export default interface ArticleModel {
     name: string;
 }

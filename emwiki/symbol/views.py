@@ -1,12 +1,21 @@
 from django.conf import settings
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import View
 from django.views.decorators.cache import cache_page
+from rest_framework import viewsets
+from rest_framework.response import Response
 
 from .models import Symbol
+from .serializers import SymbolSerializer
+
+
+class SymbolViewSet(viewsets.ModelViewSet):
+    lookup_value_regex = r'.+'
+    queryset = Symbol.objects.all().order_by('name')
+    serializer_class = SymbolSerializer
 
 
 class SymbolView(View):

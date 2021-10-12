@@ -20,5 +20,8 @@
     },
     "python.analysis.extraPaths": [
         "./emwiki"
-    ]
+    ],
+    "[vue]": {
+        "editor.tabSize": 2
+    }
 }

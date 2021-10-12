@@ -21,12 +21,27 @@ const routes: Array<RouteConfig> = [
   {
     path: '/article/:name',
     name: 'Article',
-    component: () => import('../views/Article.vue')
+    component: () => import('../views/article/Article.vue')
+  },
+  {
+    path: '/symbol/:name',
+    name: 'Symbol',
+    component: () => import('../views/symbol/Symbol.vue')
+  },
+  {
+    path: '/graph/:name/:upperLevel/:lowerLevel',
+    name: 'Graph',
+    component: () => import('../views/Graph.vue')
   },
   {
     path: '/accounts/login',
     name: 'Login',
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/accounts/signup',
+    name: 'Signup',
+    component: () => import('../views/Signup.vue')
   }
 ]
 

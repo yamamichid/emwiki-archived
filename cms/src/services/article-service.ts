@@ -1,15 +1,16 @@
 import axios, { AxiosInstance } from 'axios'
+import ArticleModel from '@/models/article-model'
 
 export default class ArticleService {
-  static instance: AxiosInstance = axios.create()
-
-  static async get (): Promise<any> {
-    const response = await this.instance.get('/article/api/articles')
-    return response
+  static async getAll (): Promise<ArticleModel[]> {
+    return axios.get('/article/api/articles').then((response) => {
+      return response.data as ArticleModel[]
+    })
   }
 
-  static async getHtml (name: string): Promise<any> {
-    const response = await this.instance.get(`/static/article/htmlized_mml/${name}.html`)
-    return response
+  static async getHtml (name: string): Promise<string> {
+    return axios.get(`/static/article/htmlized_mml/${encodeURIComponent(name)}.html`).then((response) => {
+      return response.data as string
+    })
   }
 }

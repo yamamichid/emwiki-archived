@@ -8,7 +8,7 @@ $(function () {
         selectionType: "additive",
         wheelSensitivity: 0.1
     });
-    let graph = JSON.parse(document.getElementById('graph_elements').textContent);
+    let graph = JSON.parse();
     let nodes = graph["elements"]["nodes"];
     let edges = graph["elements"]["edges"];
     let nodes_and_edges = [];
@@ -248,6 +248,10 @@ $(function () {
     for (let article_name of all_article_names) {
         $("#article_list").append($("<option/>").val(article_name).html(article_name));
     }
+
+
+    // ここから関数
+    
     // searchボタンをクリックしたら検索開始
     $("#search").click(function () {
         // dropdownで選択したノード名、または記述したノード名を取得
