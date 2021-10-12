@@ -6,13 +6,13 @@
       label="article"
       solo
       auto-select-first
-      v-model="articleModelTest"
+      v-model="articleModel"
     ></v-autocomplete>
     <v-container>
       <v-row>
         <v-col>
           <v-text-field
-            v-model="upperLevelTest"
+            v-model="upperLevel"
             type="number"
             label="Upper level"
             min="0"
@@ -20,7 +20,7 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="lowerLevelTest"
+            v-model="lowerLevel"
             type="number"
             label="Lower level"
             min="0"
@@ -39,61 +39,44 @@ import ArticleModel from '@/models/article-model'
 export default Vue.extend({
   name: 'GraphForm',
 
-  props: ['articleModels', 'graphArticleModel', 'graphUpperLevel', 'graphLowerLevel'],
+  props: ['articleModels'],
 
   data: () => ({
-    articleModelTest: { name: '' } as ArticleModel,
-    upperLevelTest: 0,
-    lowerLevelTest: 0
+    articleModel: { name: '' } as ArticleModel,
+    upperLevel: 0,
+    lowerLevel: 0
   }),
 
   watch: {
-    articleModelTest (newVal, oldVal) {
+    articleModel (newVal, oldVal) {
       this.$router.push({
         name: 'Graph',
         params: {
           name: newVal,
-          upperLevel: this.upperLevelTest,
+          upperLevel: this.upperLevel,
           lowerLevel: this.lowerLevelTest
         }
       })
     },
-    upperLevelTest (newVal, oldVal) {
+    upperLevel (newVal, oldVal) {
       this.$router.push({
         name: 'Graph',
         params: {
-          name: this.articleModelTest.name,
+          name: this.articleModel.name,
           upperLevel: newVal,
-          lowerLevel: this.lowerLevelTest
+          lowerLevel: this.lowerLevel
         }
       })
-    }
-  },
-
-  computed: {
-    articleModel: {
-      get () {
-        return this.graphArticleModel
-      },
-      set (newVal) {
-        this.$emit('input', newVal)
-      }
     },
-    upperLevel: {
-      get () {
-        return this.graphUpperLevel
-      },
-      set (newVal) {
-        this.$emit('input', newVal)
-      }
-    },
-    lowerLevel: {
-      get () {
-        return this.graphLowerLevel
-      },
-      set (newVal) {
-        this.$emit('input', newVal)
-      }
+    lowerLevel (newVal, oldVal) {
+      this.$router.push({
+        name: 'Graph',
+        params: {
+          name: this.articleModel.name,
+          upperLevel: this.upperLevel,
+          lowerLevel: newVal
+        }
+      })
     }
   }
 })

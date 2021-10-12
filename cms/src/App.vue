@@ -58,9 +58,6 @@
         <div v-if="subDrawer == 'graph'">
           <graph-form
             :articleModels="articleModels"
-            :graphArticleModel="graphArticleModel"
-            :graphUpperLevel="graphUpperLevel"
-            :graphLowerLevel="graphLowerLevel"
           ></graph-form>
         </div>
       </div>
@@ -109,10 +106,7 @@ export default Vue.extend({
     ],
     articleModels: [],
     symbolModels: [],
-    search: null,
-    graphArticleModel: { name: '' } as ArticleModel,
-    graphUpperLevel: 0,
-    graphLowerLevel: 0
+    search: null
   }),
   computed: {
     filterdArticles () {

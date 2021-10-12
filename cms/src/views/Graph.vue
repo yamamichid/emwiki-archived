@@ -8,12 +8,39 @@
 import Vue from 'vue'
 import GraphService from '@/services/graph-service'
 import cytoscape from 'cytoscape'
+let cy
 
 export default Vue.extend({
   name: 'Graph',
 
   data: () => ({
-    graphModel: null
+    cy: null,
+    graphModel: null,
+    selectors: [
+      'highlight',
+      'faded',
+      'selected',
+      'ancestor0',
+      'ancestor1',
+      'ancestor2',
+      'ancestor3',
+      'ancestor4',
+      'ancestor5',
+      'ancestor6',
+      'ancestor7',
+      'ancestor8',
+      'ancestor9',
+      'descendant0',
+      'descendant1',
+      'descendant2',
+      'descendant3',
+      'descendant4',
+      'descendant5',
+      'descendant6',
+      'descendant7',
+      'descendant8',
+      'descendant9'
+    ]
   }),
 
   watch: {
@@ -27,18 +54,19 @@ export default Vue.extend({
     },
     $route (newVal, oldVal) {
       console.log('grpahArticleModel changed')
-      GraphService.getModel().then((graphModel) => {
-        this.createGraph(graphModel).then((cy) => {
-          window.cy = cy
-        })
+      this.createGraph(this.graphModel).then((cy) => {
+        window.cy = cy
       })
     }
   },
 
   async mounted () {
     GraphService.getModel().then((graphModel) => {
-      this.createGraph(graphModel).then((cy) => {
-        window.cy = cy
+      this.graphModel = graphModel
+      this.createGraph(graphModel).then((cyto) => {
+        window.cy = cyto
+        cy = cyto
+        this.highlightElements(this.$route.params.name, this.$route.params.upperLevel, this.$route.params.lowerLevel)
       })
     })
   },
@@ -54,7 +82,6 @@ export default Vue.extend({
           selectionType: 'additive',
           wheelSensitivity: 0.1
         })
-        console.log()
         const nodes = graphModel.elements.nodes
         const edges = graphModel.elements.edges
         const nodesAndEdges = []
@@ -76,15 +103,55 @@ export default Vue.extend({
             nodesAndEdges.push(edge)
           }
         }
-        console.log('add')
         cy.add(nodesAndEdges)
-        console.log('style')
         cy.style(GraphService.getCytoscapeStyle())
-        console.log('fit')
         cy.fit(cy.nodes().orphans())
-        console.log('resolve')
         resolve(cy)
       })
+    },
+    resetElements () {
+      window.cy.elements().removeClass(this.selectors)
+      window.cy.nodes().unlock()
+    },
+    highlightElements (articleName: string, upperLevel: number, lowerLevel: number) {
+      console.log(cy)
+      const element = cy.nodes().filter((element) => {
+        return element.data('name') === articleName.toUpperCase()
+      })[0]
+      console.log(element.classList)
+      element.addClass('highlight')
+      element.addClass('selected')
+      console.log(element.data('name'))
+
+      let currentElements = cy.collection().union(element)
+      for (let i = 0; i < upperLevel; i++) {
+        const connectedElements = []
+        currentElements.find((element) => {
+          element.outgoers().difference().find((element) => {
+            element.addClass('highlight')
+            element.addClass(`ancestor${Math.min(9, i)}`)
+            connectedElements.push(element)
+          })
+        })
+        currentElements = connectedElements
+      }
+      currentElements = cy.collection().union(element)
+      for (let i = 0; i < upperLevel; i++) {
+        const connectedElements = []
+        currentElements.find((element) => {
+          element.outgoers().difference().find((element) => {
+            element.addClass('highlight')
+            element.addClass(`descendant${Math.min(9, i)}`)
+            connectedElements.push(element)
+          })
+        })
+        currentElements = connectedElements
+      }
+      this.fadeElements(cy.elements().difference(cy.elements('.highlight')))
+    },
+    fadeElements (elements) {
+      elements.addClass('faded')
+      elements.lock()
     }
   }
 })
