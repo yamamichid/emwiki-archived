@@ -162,7 +162,7 @@ class Element:
             parent.replace(node, child)
 
     def data_link(self):
-        return self.content.filename() + "#" + self.html_id()
+        return self.content.symbol + "#" + self.html_id()
 
     def html_id(self):
         return 'ELM' + str(self.id)
@@ -191,7 +191,7 @@ class Element:
 
     @staticmethod
     def element_link_html(element):
-        return (f"<span data-link='{element.data_link()}'>{Element.escape_html_characters(element.symbol)}</span>")
+        return ("<v-btn :to='{ name: " + element.symbol + ", hash: #" + element.html_id() + " }'>" + Element.escape_html_characters(element.symbol) + "</v-btn>")
 
     def write_source_code(self, fp):
         # Markup main sentences

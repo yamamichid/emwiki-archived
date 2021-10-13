@@ -61,7 +61,9 @@
             :grpahArticleName="null"
             :graphUpperLevel="graphUpperLevel"
             :graphLowerLevel="graphLowerLevel"
-            @article-model-changed="changegraphArticleModel"
+            @article-model-changed="changeGraphArticleModel"
+            @upper-level-changed="changeGraphUpperLevel"
+            @lower-level-changed="changeGraphLowerLevel"
           ></graph-form>
         </div>
       </div>
@@ -72,6 +74,7 @@
         :graphArticleModel="graphArticleModel"
         :graphUpperLevel="graphUpperLevel"
         :graphLowerLevel="graphLowerLevel"
+        @article-model-changed="changeGraphArticleModel"
        ></router-view>
     </v-main>
   </v-app>
@@ -132,9 +135,16 @@ export default Vue.extend({
     })
   },
   methods: {
-    changegraphArticleModel (newVal) {
+    changeGraphArticleModel (newVal) {
       console.log('App graphArticleModel changed')
       this.graphArticleModel = newVal
+    },
+    changeGraphUpperLevel (newVal) {
+      this.graphUpperLevel = newVal
+    },
+    changeGraphLowerLevel (newVal) {
+      console.log('lower')
+      this.graphLowerLevel = newVal
     }
   },
   watch: {

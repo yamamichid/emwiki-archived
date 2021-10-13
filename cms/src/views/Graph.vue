@@ -6,6 +6,7 @@
 
 <script lang='ts'>
 import Vue from 'vue'
+import ArticleModel from '@/models/article-model'
 import GraphService from '@/services/graph-service'
 import cytoscape from 'cytoscape'
 let cy
@@ -13,10 +14,11 @@ let cy
 export default Vue.extend({
   name: 'Graph',
 
-  props: ['graphArticleModel', 'graphUpperLevel', 'grpahLowerLevel'],
+  props: ['graphArticleModel', 'graphUpperLevel', 'graphLowerLevel'],
 
   data: () => ({
     graphModel: null,
+
     selectors: [
       'highlight',
       'faded',
@@ -47,24 +49,25 @@ export default Vue.extend({
   watch: {
     graphArticleModel: {
       handler (newVal, oldVal) {
-        console.log('Grpah graphArticleModelChanged')
         this.resetElements()
-        if (this.graphArticleModel !== undefined) {
+        if (this.graphArticleModel.name !== undefined) {
           this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
         }
       },
       deep: true
     },
     graphUpperLevel (newVal, oldVal) {
+      console.log('Grpah gupperLevel Changed')
       this.resetElements()
       if (this.graphArticleModel !== undefined) {
-        this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
+        this.highlightElements(this.graphArticleModel.name, newVal, this.graphLowerLevel)
       }
     },
     graphLowerLevel (newVal, oldVal) {
+      console.log('Graph lowerLevel changed')
       this.resetElements()
       if (this.graphArticleModel !== undefined) {
-        this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
+        this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, newVal)
       }
     }
   },
@@ -78,6 +81,13 @@ export default Vue.extend({
         if (this.graphArticleModel.name !== null) {
           this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
         }
+        cy.nodes().on('tap', (event) => {
+          if (event.target.selected()) {
+            this.$router.push({ name: 'Article', params: { name: event.target.data('name').toLowerCase() } })
+          } else {
+            this.clickElement(event.target.data('name'))
+          }
+        })
       })
     })
   },
@@ -144,10 +154,10 @@ export default Vue.extend({
         currentElements = connectedElements
       }
       currentElements = cy.collection().union(element)
-      for (let i = 0; i < upperLevel; i++) {
+      for (let i = 0; i < lowerLevel; i++) {
         const connectedElements = []
         currentElements.find((element) => {
-          element.outgoers().difference().find((element) => {
+          element.incomers().difference().find((element) => {
             element.addClass('highlight')
             element.addClass(`descendant${Math.min(9, i)}`)
             connectedElements.push(element)
@@ -157,9 +167,21 @@ export default Vue.extend({
       }
       this.fadeElements(cy.elements().difference(cy.elements('.highlight')))
     },
+    setArticleModel (articleName: string) {
+      const element = cy.nodes().filter((element) => {
+        return element.data('name') === articleName.toUpperCase()
+      })[0]
+      element.addClass('highlight')
+      element.addClass('selected')
+    },
     fadeElements (elements) {
       elements.addClass('faded')
       elements.lock()
+    },
+    clickElement (articleName: string) {
+      this.resetElements()
+      this.highlightElements(articleName, this.graphUpperLevel, this.graphLowerLevel)
+      this.$emit('article-model-changed', { name: articleName } as ArticleModel)
     }
   }
 })
