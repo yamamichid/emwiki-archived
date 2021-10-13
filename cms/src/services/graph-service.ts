@@ -27,7 +27,7 @@ export default class GraphService {
       {
         selector: 'node.highlight',
         css: {
-          'font-size': 20, width: 250, height: 250, content: 'data(name)', opacity: 1, 'z-index': 10
+          'font-size': 100, width: 250, height: 250, content: 'data(name)', opacity: 1, 'z-index': 10
         }
       },
       {

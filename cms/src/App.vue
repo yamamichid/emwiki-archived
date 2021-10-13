@@ -58,6 +58,10 @@
         <div v-if="subDrawer == 'graph'">
           <graph-form
             :articleModels="articleModels"
+            :grpahArticleName="null"
+            :graphUpperLevel="graphUpperLevel"
+            :graphLowerLevel="graphLowerLevel"
+            @article-model-changed="changegraphArticleModel"
           ></graph-form>
         </div>
       </div>
@@ -65,6 +69,9 @@
 
     <v-main style="resize: horizontal">
        <router-view
+        :graphArticleModel="graphArticleModel"
+        :graphUpperLevel="graphUpperLevel"
+        :graphLowerLevel="graphLowerLevel"
        ></router-view>
     </v-main>
   </v-app>
@@ -106,7 +113,10 @@ export default Vue.extend({
     ],
     articleModels: [],
     symbolModels: [],
-    search: null
+    search: null,
+    graphArticleModel: { name: null } as ArticleModel,
+    graphUpperLevel: 0,
+    graphLowerLevel: 0
   }),
   computed: {
     filterdArticles () {
@@ -122,6 +132,10 @@ export default Vue.extend({
     })
   },
   methods: {
+    changegraphArticleModel (newVal) {
+      console.log('App graphArticleModel changed')
+      this.graphArticleModel = newVal
+    }
   },
   watch: {
     subDrawer (newVal, oldVal) {

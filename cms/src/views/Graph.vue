@@ -13,8 +13,9 @@ let cy
 export default Vue.extend({
   name: 'Graph',
 
+  props: ['graphArticleModel', 'graphUpperLevel', 'grpahLowerLevel'],
+
   data: () => ({
-    cy: null,
     graphModel: null,
     selectors: [
       'highlight',
@@ -44,19 +45,27 @@ export default Vue.extend({
   }),
 
   watch: {
-    graphArticleModel (newVal, oldVal) {
-      console.log('grpahArticleModel changed')
-      GraphService.getModel().then((graphModel) => {
-        this.createGraph(graphModel).then((cy) => {
-          window.cy = cy
-        })
-      })
+    graphArticleModel: {
+      handler (newVal, oldVal) {
+        console.log('Grpah graphArticleModelChanged')
+        this.resetElements()
+        if (this.graphArticleModel !== undefined) {
+          this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
+        }
+      },
+      deep: true
     },
-    $route (newVal, oldVal) {
-      console.log('grpahArticleModel changed')
-      this.createGraph(this.graphModel).then((cy) => {
-        window.cy = cy
-      })
+    graphUpperLevel (newVal, oldVal) {
+      this.resetElements()
+      if (this.graphArticleModel !== undefined) {
+        this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
+      }
+    },
+    graphLowerLevel (newVal, oldVal) {
+      this.resetElements()
+      if (this.graphArticleModel !== undefined) {
+        this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
+      }
     }
   },
 
@@ -66,7 +75,9 @@ export default Vue.extend({
       this.createGraph(graphModel).then((cyto) => {
         window.cy = cyto
         cy = cyto
-        this.highlightElements(this.$route.params.name, this.$route.params.upperLevel, this.$route.params.lowerLevel)
+        if (this.graphArticleModel.name !== null) {
+          this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
+        }
       })
     })
   },
@@ -114,14 +125,11 @@ export default Vue.extend({
       window.cy.nodes().unlock()
     },
     highlightElements (articleName: string, upperLevel: number, lowerLevel: number) {
-      console.log(cy)
       const element = cy.nodes().filter((element) => {
         return element.data('name') === articleName.toUpperCase()
       })[0]
-      console.log(element.classList)
       element.addClass('highlight')
       element.addClass('selected')
-      console.log(element.data('name'))
 
       let currentElements = cy.collection().union(element)
       for (let i = 0; i < upperLevel; i++) {
@@ -160,7 +168,8 @@ export default Vue.extend({
 <style>
 #graph{
     position: absolute;
-    height: 80%;
+    height: 100%;
     width: 100%;
 }
+
 </style>

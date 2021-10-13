@@ -3,9 +3,7 @@
     <v-autocomplete
       :items="articleModels"
       item-text="name"
-      label="article"
-      solo
-      auto-select-first
+      label="Select Article"
       v-model="articleModel"
     ></v-autocomplete>
     <v-container>
@@ -39,44 +37,35 @@ import ArticleModel from '@/models/article-model'
 export default Vue.extend({
   name: 'GraphForm',
 
-  props: ['articleModels'],
+  props: ['articleModels', 'graphArticleModel', 'graphUpperLevel', 'graphLowerLevel'],
 
   data: () => ({
-    articleModel: { name: '' } as ArticleModel,
-    upperLevel: 0,
-    lowerLevel: 0
   }),
 
-  watch: {
-    articleModel (newVal, oldVal) {
-      this.$router.push({
-        name: 'Graph',
-        params: {
-          name: newVal,
-          upperLevel: this.upperLevel,
-          lowerLevel: this.lowerLevelTest
-        }
-      })
+  computed: {
+    articleModel: {
+      get () {
+        return this.graphArticleModel
+      },
+      set (newVal, arg) {
+        this.$emit('article-model-changed', this.articleModels.find((articleModel) => articleModel.name === newVal))
+      }
     },
-    upperLevel (newVal, oldVal) {
-      this.$router.push({
-        name: 'Graph',
-        params: {
-          name: this.articleModel.name,
-          upperLevel: newVal,
-          lowerLevel: this.lowerLevel
-        }
-      })
+    upperLevel: {
+      get () {
+        return this.graphUpperLevel
+      },
+      set (newVal) {
+        this.$emit('upper-level-changed', newVal)
+      }
     },
-    lowerLevel (newVal, oldVal) {
-      this.$router.push({
-        name: 'Graph',
-        params: {
-          name: this.articleModel.name,
-          upperLevel: this.upperLevel,
-          lowerLevel: newVal
-        }
-      })
+    lowerLevel: {
+      get () {
+        return this.graphLowerLevel
+      },
+      set (newVal) {
+        this.$emit('lower-level-changed', newVal)
+      }
     }
   }
 })

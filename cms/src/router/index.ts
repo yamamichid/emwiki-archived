@@ -29,8 +29,9 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/symbol/Symbol.vue')
   },
   {
-    path: '/graph/:name/:upperLevel/:lowerLevel',
+    path: '/graph',
     name: 'Graph',
+    props: true,
     component: () => import('../views/Graph.vue')
   },
   {
