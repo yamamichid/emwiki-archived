@@ -1,18 +1,26 @@
 <template>
-    <div id="article" v-html="articleHtml"></div>
+  <div>
+    <div v-html="articleHtml"></div>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import htmlizedMml from '@/plugins/htmlized_mml'
+import mathjax from '@/plugins/mathjax'
 import ArticleModel from '@/models/article-model'
 import ArticleService from '@/services/article-service'
+import ArticleHtml from '@/components/ArticleHtml.vue'
 
 export default Vue.extend({
   name: 'Article',
   data: () => ({
+    articleHtmlUrl: '',
     articleHtml: '',
     articleModel: null
   }),
+  computed: {
+  },
   watch: {
     $route (newVal, oldVal) {
       this.articleModel = { name: this.$route.params.name } as ArticleModel
@@ -22,7 +30,9 @@ export default Vue.extend({
     }
   },
   mounted () {
+    this.articleHtmlUrl = ArticleService.getHtmlUrl()
     this.articleModel = { name: this.$route.params.name } as ArticleModel
+    this.setArticleHtml(this.articleModel.name)
   },
   methods: {
     setArticleHtml (name: string) {

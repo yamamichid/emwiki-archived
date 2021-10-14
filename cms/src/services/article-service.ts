@@ -13,4 +13,8 @@ export default class ArticleService {
       return response.data as string
     })
   }
+
+  static getHtmlUrl (name: string): string {
+    return `/static/article/htmlized_mml/${encodeURIComponent(name)}.html`
+  }
 }

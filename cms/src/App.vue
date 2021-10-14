@@ -35,38 +35,40 @@
         <v-avatar class="d-block mx-auto" size="36"><v-btn icon @click="subDrawer = 'graph'; if($route.name !== 'Graph'){$router.push({ name: 'Graph' })}"><v-icon>mdi-graph-outline</v-icon></v-btn></v-avatar>
       </v-navigation-drawer>
       <!-- subDrawer -->
-      <div class="pl-14">
-        <!-- Account -->
-        <div v-if="subDrawer == 'account'">
-          <account-form></account-form>
+      <keep-alive>
+        <div class="pl-14">
+          <!-- Account -->
+          <div v-if="subDrawer == 'account'">
+            <account-form></account-form>
+          </div>
+          <!-- Search -->
+          <div v-if="subDrawer == 'search'">
+            <v-select
+              :items="searchForms"
+              label="Target"
+              v-model="currentSearchForm"
+            >
+            </v-select>
+            <component
+              v-bind:is="currentSearchForm"
+              :articleModels="articleModels"
+              :symbolModels="symbolModels"
+            ></component>
+          </div>
+          <!-- Graph -->
+          <div v-if="subDrawer == 'graph'">
+            <graph-form
+              :articleModels="articleModels"
+              :grpahArticleName="null"
+              :graphUpperLevel="graphUpperLevel"
+              :graphLowerLevel="graphLowerLevel"
+              @article-model-changed="changeGraphArticleModel"
+              @upper-level-changed="changeGraphUpperLevel"
+              @lower-level-changed="changeGraphLowerLevel"
+            ></graph-form>
+          </div>
         </div>
-        <!-- Search -->
-        <div v-if="subDrawer == 'search'">
-          <v-select
-            :items="searchForms"
-            label="Target"
-            v-model="currentSearchForm"
-          >
-          </v-select>
-          <component
-            v-bind:is="currentSearchForm"
-            :articleModels="articleModels"
-            :symbolModels="symbolModels"
-          ></component>
-        </div>
-        <!-- Graph -->
-        <div v-if="subDrawer == 'graph'">
-          <graph-form
-            :articleModels="articleModels"
-            :grpahArticleName="null"
-            :graphUpperLevel="graphUpperLevel"
-            :graphLowerLevel="graphLowerLevel"
-            @article-model-changed="changeGraphArticleModel"
-            @upper-level-changed="changeGraphUpperLevel"
-            @lower-level-changed="changeGraphLowerLevel"
-          ></graph-form>
-        </div>
-      </div>
+      </keep-alive>
     </v-navigation-drawer>
 
     <v-main style="resize: horizontal">
