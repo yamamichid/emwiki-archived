@@ -15,6 +15,6 @@ export default class ArticleService {
   }
 
   static getHtmlUrl (name: string): string {
-    return `/static/article/htmlized_mml/${encodeURIComponent(name)}.html`
+    return `http://localhost:8000/static/article/htmlized_mml/${encodeURIComponent(name)}.html`
   }
 }

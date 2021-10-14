@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <div v-html="articleHtml"></div>
-  </div>
+    <iframe id='article' width="100%" height="100%" :src="articleHtmlUrl" @load="change"></iframe>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import htmlizedMml from '@/plugins/htmlized_mml'
-import mathjax from '@/plugins/mathjax'
 import ArticleModel from '@/models/article-model'
 import ArticleService from '@/services/article-service'
 import ArticleHtml from '@/components/ArticleHtml.vue'
@@ -26,22 +22,31 @@ export default Vue.extend({
       this.articleModel = { name: this.$route.params.name } as ArticleModel
     },
     articleModel (newArticleModel, oldArticleModel) {
-      this.setArticleHtml(newArticleModel.name)
+      this.articleHtmlUrl = ArticleService.getHtmlUrl(this.articleModel.name)
+    },
+    articleHtmlUrl (newHtmlUrl, oldHtmlUrl) {
+      const articleName = newHtmlUrl.split('/').at(-1).split('.').at(0)
+      console.log(articleName)
+      this.$router.push({ name: 'Article', params: { name: articleName } })
     }
   },
   mounted () {
-    this.articleHtmlUrl = ArticleService.getHtmlUrl()
     this.articleModel = { name: this.$route.params.name } as ArticleModel
-    this.setArticleHtml(this.articleModel.name)
+    this.articleHtmlUrl = ArticleService.getHtmlUrl(this.articleModel.name)
   },
   methods: {
-    setArticleHtml (name: string) {
-      ArticleService.getHtml(name).then((articleHtml) => {
-        this.articleHtml = articleHtml as string
-      })
+    change (arg) {
+      let articleName: string
+      try {
+        articleName = document.getElementById('article').contentWindow.location.href.split('/').at(-1).split('.').at(0)
+        this.$router.push({ name: 'Article', params: { name: articleName } })
+      } catch (e) {
+        console.log('URL will be changed in product.')
+      }
     }
   }
 })
+
 </script>
 
 <style>

@@ -55,7 +55,7 @@ class HtmlizedMmlBuilder:
             raw_html_file = HtmlFile(from_path)
             raw_html_file.read()
             product_html_file = HtmlFile(to_path)
-            product_html_file.root = self.convert_head(raw_html_file.root)
+            product_html_file.root = self.convert_head(os.path.splitext(basename)[0], raw_html_file.root)
             product_html_file.write()
         print("Copying proofs...")
         shutil.copytree(
@@ -68,7 +68,7 @@ class HtmlizedMmlBuilder:
             os.path.join(self.to_dir, 'refs')
         )
 
-    def convert_head(self, root):
+    def convert_head(self, article_name, root):
         """Convert head element
 
         Args:
@@ -84,7 +84,18 @@ class HtmlizedMmlBuilder:
         head = root.xpath('//head')[0]
 
         # Add head elements
-        head_elements = OrderedDict()
-        for element in head_elements.values():
+        head_elements = [
+            html.Element('meta', id="article-meta-data", name=article_name),
+            html.Element('link', href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1", crossorigin="anonymous"),
+            html.Element('script', src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js", integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW", crossorigin="anonymous"),
+            html.Element('script', src="https://code.jquery.com/jquery-3.6.0.js", integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=", crossorigin="anonymous"),
+            html.Element('script', src="/static/article/JavaScript/index.js"),
+            html.Element('script', src="/static/article/JavaScript/htmlized_mml.js"),
+            html.Element('link', rel="stylesheet", href="/static/article/CSS/index.css", type="text/css"),
+            html.Element('script', type="text/javascript", src="/static/article/JavaScript/mathjax.js"),
+            html.Element('script', src="https://polyfill.io/v3/polyfill.min.js?features=es6"),
+            html.Element('script', id="MathJax-script", src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js", type="text/javascript"),
+        ]
+        for element in head_elements:
             head.append(element)
         return root
