@@ -184,7 +184,7 @@ class Element:
 
     @staticmethod
     def source_link_html(e):
-        href = e.filename + ".html"
+        href = e.filename
         if e.anchor is not None:
             href += "#" + e.anchor
         return "<span data-href='" + href + "'>" + e.filename + "</span>"

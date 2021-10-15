@@ -1,4 +1,4 @@
-export default interface ArticleModel {
+export default interface GraphModel {
   data: string[];
   directed: boolean;
   multigraph: boolean;

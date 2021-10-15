@@ -2,9 +2,6 @@
 
 body {
     margin: 0;
-}
-
-#symbol {
     font-family: consolas;
 }
 
@@ -13,12 +10,12 @@ body {
     max-height: 90vh;
 }
 
-#symbol span[data-link] {
+ span[data-link] {
     color: #007bff;
     font-weight: bold;
 }
 
-#symbol span[data-link]:hover {
+ span[data-link]:hover {
     cursor: pointer;
     color: #ffffff;
     background: #007bff;

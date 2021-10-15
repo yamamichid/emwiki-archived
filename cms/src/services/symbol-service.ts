@@ -21,4 +21,8 @@ export default class SymbolService {
       return response.data as SymbolModel
     })
   }
+
+  static getHtmlUrl (filename: string): string {
+    return `http://localhost:8000/static/symbol/symbol_html/${encodeURIComponent(filename)}`
+  }
 }

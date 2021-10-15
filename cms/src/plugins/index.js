@@ -1,7 +1,4 @@
-var context = {
-    name: $('meta#article-meta-data').attr('name'),
-    comment_url: '/article/comments'
-}
+var context = JSON.parse(document.getElementById('context').textContent);
 
 class Article {
     constructor(name, element) {
@@ -144,6 +141,7 @@ class Comment {
         }).done(function(data) {
             callback();
         }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest, textStatus, errorThrown)
             if(errorThrown === "Forbidden") {
                 alert("Editing is only allowed to registered users \nPlease login or signup");
             } else {
@@ -167,6 +165,7 @@ class Comment {
                         )
                     }).editor.text = comment_fetched.fields.text;
                 } catch(e) {
+                    console.log(comment_fetched)
                     console.log(e);
                 }
             })
@@ -247,6 +246,7 @@ function getCookie(name) {
 
 
 $(function() {
+
     //get csrf_token from cookie
     var csrftoken = getCookie('csrftoken');
     function csrfSafeMethod(method) {
@@ -260,8 +260,8 @@ $(function() {
             }
         }
     });
-    let article = new Article(context["name"], $("body"));
-    console.log(article)
+    var popover = new bootstrap.Popover(document.getElementById("bib-popover"), {"html": true})
+    let article = new Article(context["name"], $("#article"));
     let parser = new Parser(article.element);
     let comments = parser.list_comments(article);
     Comment.bulk_fetch(article, comments);

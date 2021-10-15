@@ -14,7 +14,7 @@ export default class GraphService {
       {
         selector: 'node',
         css: {
-          'background-color': '#ff0000', shape: 'ellipse', width: 150, height: 150, content: 'data(name)', 'font-size': 40, opacity: 1, 'z-index': 1, 'text-halign': 'center', 'text-valign': 'center', 'font-style': 'normal', 'font-weight': 'bold', color: '#ffffff', 'text-outline-color': 'red', 'text-outline-opacity': 1, 'text-outline-width': 10
+          'background-color': '#ff0000', shape: 'ellipse', width: 300, height: 300, content: 'data(name)', 'font-size': 120, opacity: 1, 'z-index': 1, 'text-halign': 'center', 'text-valign': 'center', 'font-style': 'normal', 'font-weight': 'bold', color: '#ffffff', 'text-outline-color': 'red', 'text-outline-opacity': 1, 'text-outline-width': 10
         }
       },
       {
@@ -27,13 +27,13 @@ export default class GraphService {
       {
         selector: 'node.highlight',
         css: {
-          'font-size': 100, width: 250, height: 250, content: 'data(name)', opacity: 1, 'z-index': 10
+          'font-size': 100, width: 400, height: 400, content: 'data(name)', opacity: 1, 'z-index': 10
         }
       },
       {
         selector: 'node.selected',
         css: {
-          'background-color': '#fff100', color: '#ff0000', width: 300, height: 300, 'text-outline-color': '#fff100', 'text-outline-opacity': 1, 'text-outline-width': 10
+          'background-color': '#fff100', color: '#ff0000', width: 600, height: 600, 'text-outline-color': '#fff100', 'text-outline-opacity': 1, 'text-outline-width': 10
         }
       },
       // Style of ancestor nodes

@@ -13,4 +13,13 @@ export default class ArticleService {
       return response.data as string
     })
   }
+
+  static getHtmlUrl (name: string, hash?: any): string {
+    console.log(hash)
+    if (hash) {
+      return `http://localhost:8000/static/article/htmlized_mml/${encodeURIComponent(name)}.html${hash}`
+    } else {
+      return `http://localhost:8000/static/article/htmlized_mml/${encodeURIComponent(name)}.html`
+    }
+  }
 }

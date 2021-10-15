@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-autocomplete
-      :items="articleModels"
-      item-text="name"
-      label="Select Article"
-      v-model="articleModel"
-    ></v-autocomplete>
+    <v-btn block>Reset</v-btn>
     <v-container>
       <v-row>
         <v-col>
@@ -26,7 +21,21 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-btn block>Reset</v-btn>
+    <v-text-field
+      label="Search"
+      v-model="searchText"
+    ></v-text-field>
+    <v-data-table
+        :headers="headers"
+        :items="articleModels"
+        :search="searchText"
+        :items-per-page="-1"
+        item-key="name"
+        dense
+        hide-default-footer
+        @click:row="onGraphRowClick"
+      >
+      </v-data-table>
   </div>
 </template>
 
@@ -40,6 +49,8 @@ export default Vue.extend({
   props: ['articleModels', 'graphArticleModel', 'graphUpperLevel', 'graphLowerLevel'],
 
   data: () => ({
+    headers: [{ text: 'name', value: 'name' }],
+    searchText: ''
   }),
 
   computed: {
@@ -66,6 +77,11 @@ export default Vue.extend({
       set (newVal) {
         this.$emit('lower-level-changed', newVal)
       }
+    }
+  },
+  methods: {
+    onGraphRowClick (row) {
+      this.articleModel = row.name
     }
   }
 })

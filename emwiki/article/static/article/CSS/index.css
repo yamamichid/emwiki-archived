@@ -78,30 +78,30 @@ div#article body {
 
 
 
-div#article div{ padding: 0 0 0 0; margin: 0 0 0 0; } 
-div#article div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
-div#article div.box { border-width:thin; border-color:blue; border-style:solid; }
-div#article p{ margin: 0 0 0 0; } 
-div#article a{text-decoration:none} a:hover { color: red; } 
-div#article a.ref { font-size:x-small; }
-div#article a.ref:link { color:green; } 
-div#article a.ref:hover { color: red; } 
-div#article a.txt:link { color:black; } 
-div#article a.txt:hover { color: red; } 
-div#article .wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
-div#article .wikiactions li { display: inline; padding: .2em .4em; }
-div#article .wikiactions a {text-decoration:underline;} 
-div#article span.kw {font-weight: bold; }
-div#article span.lab {font-style: italic; }
-div#article span.comment {font-style: italic; }
-div#article span.hide { display: none; }
-div#article span.p1:hover { color : inherit; background-color : #BAFFFF; } 
-div#article span.p2:hover { color : inherit; background-color : #FFCACA; }
-div#article span.p3:hover { color : inherit; background-color : #FFFFBA; }
-div#article span.p4:hover { color : inherit; background-color : #CACAFF; }
-div#article span.p5:hover { color : inherit; background-color : #CAFFCA; }
-div#article span.p0:hover { color : inherit; background-color : #FFBAFF; }
-div#article .default { background-color: white; color: black; } 
-div#article .default:hover { background-color: white; color: black; }
+div div{ padding: 0 0 0 0; margin: 0 0 0 0; } 
+div div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; } 
+div div.box { border-width:thin; border-color:blue; border-style:solid; }
+div p{ margin: 0 0 0 0; } 
+div a{text-decoration:none} a:hover { color: red; } 
+div a.ref { font-size:x-small; }
+div a.ref:link { color:green; } 
+div a.ref:hover { color: red; } 
+div a.txt:link { color:black; } 
+div a.txt:hover { color: red; } 
+div .wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
+div .wikiactions li { display: inline; padding: .2em .4em; }
+div .wikiactions a {text-decoration:underline;} 
+div span.kw {font-weight: bold; }
+div span.lab {font-style: italic; }
+div span.comment {font-style: italic; }
+div span.hide { display: none; }
+div span.p1:hover { color : inherit; background-color : #BAFFFF; } 
+div span.p2:hover { color : inherit; background-color : #FFCACA; }
+div span.p3:hover { color : inherit; background-color : #FFFFBA; }
+div span.p4:hover { color : inherit; background-color : #CACAFF; }
+div span.p5:hover { color : inherit; background-color : #CAFFCA; }
+div span.p0:hover { color : inherit; background-color : #FFBAFF; }
+div .default { background-color: white; color: black; } 
+div .default:hover { background-color: white; color: black; }
 #tt { position:fixed; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
-div#article :target { background: #5D9BF7; border: solid 1px #aaa;}
+div :target { background: #5D9BF7; border: solid 1px #aaa;}

@@ -1,35 +1,151 @@
 <template>
-    <div id="article" v-html="articleHtml"></div>
+    <iframe id='article' width="100%" height="100%" :src="articleHtmlUrl" @load="iframeChanged"></iframe>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import ArticleModel from '@/models/article-model'
 import ArticleService from '@/services/article-service'
+import ArticleHtml from '@/components/ArticleHtml.vue'
 
 export default Vue.extend({
   name: 'Article',
   data: () => ({
-    articleHtml: '',
+    articleHtmlUrl: '',
     articleModel: null
   }),
   watch: {
     $route (newVal, oldVal) {
-      this.articleModel = { name: this.$route.params.name } as ArticleModel
-    },
-    articleModel (newArticleModel, oldArticleModel) {
-      this.setArticleHtml(newArticleModel.name)
+      this.reload()
     }
   },
   mounted () {
-    this.articleModel = { name: this.$route.params.name } as ArticleModel
+    this.reload()
   },
   methods: {
-    setArticleHtml (name: string) {
-      ArticleService.getHtml(name).then((articleHtml) => {
-        this.articleHtml = articleHtml as string
-      })
+    reload () {
+      this.articleModel = { name: this.$route.params.name } as ArticleModel
+      this.articleHtmlUrl = ArticleService.getHtmlUrl(this.articleModel.name, this.$route.hash)
+    },
+    iframeChanged () {
+      try {
+        const articleName: string = document.getElementById('article').contentWindow.location.href.split('/').at(-1).split('.').at(0)
+        this.$router.push({ name: 'Article', params: { name: articleName } })
+      } catch (e) {
+        console.log('URL will be changed in product.')
+      }
     }
   }
 })
+
 </script>
+
+<style>
+div#article body {
+    margin-left: 30px;
+    font-size: 120%;
+    font-family: consolas;
+}
+
+.commentPreviewWrapper{
+    background-color: #e6ffed;
+    margin-right: 10px;
+}
+
+.commentTextarea {
+    padding: 5px 8px;
+    border-radius: 6px;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 2px solid #aaa;
+    border-bottom: 2px solid #aaa;
+    background-image: none;
+    background-color: white;
+    width: auto;
+    height: 200px;
+    white-space: wrap;
+    resize: vertical;
+}
+
+.submitButton {
+  display: inline-block;
+  padding: 0.3em 1em;
+  text-decoration: none;
+  background-color: white;
+  color: #61ff4d;
+  border: solid 2px #61ff4d;
+  border-radius: 3px;
+  transition: .4s;
+}
+
+.submitButton:hover {
+    background: #61ff4d;
+    color: white;
+}
+
+.cancelButton {
+    display: inline-block;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    background-color: white;
+    color: #ff4242;
+    border: solid 2px #ff4242;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+.cancelButton:hover {
+    background: #ff4242;
+    color: white;
+}
+
+.previewButton {
+    display: inline-block;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    background-color: white;
+    color: #b4b4b4;
+    border: solid 2px #b4b4b4;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+.editButton {
+    background-color: #e6ffed;
+    color: #b4b4b4;
+    border: none;
+    text-align: center;
+}
+
+.popover {
+    max-width: 700px;
+}
+
+div#article div{ padding: 0 0 0 0; margin: 0 0 0 0; }
+div#article div.add { padding-left: 3mm; padding-bottom: 0mm;  margin: 0 0 0 0; }
+div#article div.box { border-width:thin; border-color:blue; border-style:solid; }
+div#article p{ margin: 0 0 0 0; }
+div#article a{text-decoration:none} a:hover { color: red; }
+div#article a.ref { font-size:x-small; }
+div#article a.ref:link { color:green; }
+div#article a.ref:hover { color: red; }
+div#article a.txt:link { color:black; }
+div#article a.txt:hover { color: red; }
+div#article .wikiactions ul { background-color: DarkSeaGreen ; color:blue; margin: 0; padding: 6px; list-style-type: none; border-bottom: 1px solid #000; }
+div#article .wikiactions li { display: inline; padding: .2em .4em; }
+div#article .wikiactions a {text-decoration:underline;}
+div#article span.kw {font-weight: bold; }
+div#article span.lab {font-style: italic; }
+div#article span.comment {font-style: italic; }
+div#article span.hide { display: none; }
+div#article span.p1:hover { color : inherit; background-color : #BAFFFF; }
+div#article span.p2:hover { color : inherit; background-color : #FFCACA; }
+div#article span.p3:hover { color : inherit; background-color : #FFFFBA; }
+div#article span.p4:hover { color : inherit; background-color : #CACAFF; }
+div#article span.p5:hover { color : inherit; background-color : #CAFFCA; }
+div#article span.p0:hover { color : inherit; background-color : #FFBAFF; }
+div#article .default { background-color: white; color: black; }
+div#article .default:hover { background-color: white; color: black; }
+#tt { position:fixed; display:block; font-size: small; background: LightYellow; padding:2px 12px 3px 7px; margin-left:5px;}
+div#article :target { background: #5D9BF7; border: solid 1px #aaa;}
+</style>

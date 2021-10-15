@@ -11,6 +11,7 @@
     "axios": "^0.22.0",
     "core-js": "^3.6.5",
     "cytoscape": "^3.19.1",
+    "cytoscape-context-menus": "^4.1.0",
     "vue": "^2.6.11",
     "vue-axios": "^3.3.7",
     "vue-class-component": "^7.2.3",
@@ -61,5 +62,8 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "browser": {
+    "vue": "vue/dist/vue.js"
+  }
 }
