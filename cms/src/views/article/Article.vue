@@ -14,6 +14,8 @@ export default Vue.extend({
     articleHtmlUrl: '',
     articleModel: null
   }),
+  computed: {
+  },
   watch: {
     $route (newVal, oldVal) {
       this.reload()
