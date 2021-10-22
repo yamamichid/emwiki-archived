@@ -56,7 +56,7 @@ export default Vue.extend({
     graphArticleModel: {
       handler (newVal, oldVal) {
         this.resetElements()
-        if (this.graphArticleModel.name !== undefined) {
+        if (this.graphArticleModel.name) {
           this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
         }
       },
@@ -84,11 +84,14 @@ export default Vue.extend({
       this.createGraph(graphModel).then((cyto) => {
         window.cy = cyto
         cy = cyto
-        if (this.graphArticleModel.name !== null) {
+        if (this.graphArticleModel !== null) {
           this.highlightElements(this.graphArticleModel.name, this.graphUpperLevel, this.graphLowerLevel)
         }
+        cy.nodes().on('tap', (event) => {
+          this.clickElement(event.target.data('name'))
+        })
         cyContextMenu = cy.contextMenus({
-          evtType: ['tap', 'cxttap'],
+          evtType: ['cxttap'],
           menuItems: [
             {
               id: 'select',
@@ -125,28 +128,7 @@ export default Vue.extend({
           selectionType: 'additive',
           wheelSensitivity: 0.1
         })
-        const nodes = graphModel.elements.nodes
-        const edges = graphModel.elements.edges
-        const nodesAndEdges = []
-
-        for (const i in nodes) {
-          for (const j in nodes[i]) {
-            const node = {}
-            node.group = 'nodes'
-            node.data = { id: nodes[i][j].id, name: nodes[i][j].name, href: nodes[i][j].href }
-            node.position = { x: (nodes[i][j].x + 1) * 300, y: (nodes[i][j].y + 1) * 300 }
-            nodesAndEdges.push(node)
-          }
-        }
-        for (const i in edges) {
-          for (const j in edges[i]) {
-            const edge = {}
-            edge.group = 'edges'
-            edge.data = { source: edges[i][j].source, target: edges[i][j].target }
-            nodesAndEdges.push(edge)
-          }
-        }
-        cy.add(nodesAndEdges)
+        cy.add(graphModel.eleObjs)
         cy.style(GraphService.getCytoscapeStyle())
         cy.fit(cy.nodes().orphans())
         resolve(cy)

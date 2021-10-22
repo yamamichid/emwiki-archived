@@ -1,16 +1,23 @@
 <template>
-  <v-form>
+  <v-form
+    ref="form"
+    v-model="valid"
+    @submit.prevent="login(username, password)"
+  >
     <v-text-field
+      v-model="username"
       label="Username"
-      required
+      :rules="[v => !!v || 'Username is required']"
     >
     </v-text-field>
     <v-text-field
+      v-model="password"
       label="Password"
-      required
+      type="password"
+      :rules="[v => !!v || 'Password is required']"
     >
     </v-text-field>
-    <v-btn @click="login('etmula', 'password')">Login</v-btn>
+    <v-btn type="submit">Login</v-btn>
     <v-btn @click="logout()">Logout</v-btn>
     <v-btn @click="test()">Test</v-btn>
     <v-btn @click="getCookie()">Get Cookie</v-btn>
@@ -27,9 +34,17 @@ export default Vue.extend({
   components: {
   },
 
+  data: () => ({
+    valid: true,
+    username: '',
+    password: ''
+  }),
+
   methods: {
     login (username: string, password: string) {
-      AccountService.login(username, password)
+      if (this.$refs.form.validate()) {
+        AccountService.login(username, password)
+      }
     },
     logout () {
       AccountService.logout()

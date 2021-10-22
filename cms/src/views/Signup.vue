@@ -1,39 +1,58 @@
 <template>
-  <v-form>
+  <v-form
+    v-model="validate"
+    ref="form"
+    @submit.prevent="signup(username, email, password, passwordConfirmation)"
+  >
     <v-text-field
       label="Username"
-      required
+      v-model="username"
+      :rules="[v => !!v || 'Username is required']"
     >
     </v-text-field>
     <v-text-field
       label="Email"
-      required
+      v-model="email"
+      type="email"
+      :rules="[v => !!v || 'Email is required']"
     ></v-text-field>
     <v-text-field
       label="Password"
-      required
+      v-model="password"
+      type="password"
+      :rules="[v => !!v || 'Password is required']"
     ></v-text-field>
     <v-text-field
       label="Password confirmation"
-      required
+      v-model="passwordConfirmation"
+      type="password"
+      :rules="[v => !!v || 'Password confirmation is required']"
     >
     </v-text-field>
-    <v-btn @click="login('etmula', 'password')">Signup</v-btn>
+    <v-btn type="submit">Signup</v-btn>
   </v-form>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import AccountService from '@/services/account-service'
 
 export default Vue.extend({
   name: 'Signup',
 
-  components: {
-  },
+  data: () => ({
+    validate: true,
+    username: '',
+    email: '',
+    password: '',
+    passwordConfirmation: ''
+  }),
 
   methods: {
     signup (username: string, email: string, password: string, passwordConfirmation: string) {
-      console.log('signup')
+      if (this.$refs.form.validate() && password === passwordConfirmation) {
+        AccountService.signup(username, email, password)
+      }
     }
   }
 })

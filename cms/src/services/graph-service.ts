@@ -14,7 +14,7 @@ export default class GraphService {
       {
         selector: 'node',
         css: {
-          'background-color': '#ff0000', shape: 'ellipse', width: 300, height: 300, content: 'data(name)', 'font-size': 120, opacity: 1, 'z-index': 1, 'text-halign': 'center', 'text-valign': 'center', 'font-style': 'normal', 'font-weight': 'bold', color: '#ffffff', 'text-outline-color': 'red', 'text-outline-opacity': 1, 'text-outline-width': 10
+          'background-color': '#000000', shape: 'ellipse', width: 300, height: 300, content: 'data(name)', 'font-size': 120, opacity: 1, 'z-index': 1, 'text-halign': 'center', 'text-valign': 'center', 'font-style': 'normal', 'font-weight': 'bold', color: '#ffffff', 'text-outline-color': 'r#000000', 'text-outline-opacity': 1, 'text-outline-width': 10
         }
       },
       {

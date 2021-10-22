@@ -23,23 +23,24 @@
       >
         <v-avatar
           class="d-block text-center mx-auto mt-4"
-          color="grey darken-1"
           size="36"
           @click="subDrawer = 'account'"
-        ></v-avatar>
+        ><v-icon>mdi-account</v-icon></v-avatar>
 
         <v-divider class="mx-3 my-5"></v-divider>
 
         <v-avatar class="d-block mx-auto" size="36"><v-btn icon @click="subDrawer = 'home'"><v-icon>mdi-home</v-icon></v-btn></v-avatar>
         <v-avatar class="d-block mx-auto" size="36"><v-btn icon @click="subDrawer = 'search'"><v-icon>mdi-magnify</v-icon></v-btn></v-avatar>
-        <v-avatar class="d-block mx-auto" size="36"><v-btn icon @click="subDrawer = 'graph'; if($route.name !== 'Graph'){$router.push({ name: 'Graph' })}"><v-icon>mdi-graph-outline</v-icon></v-btn></v-avatar>
+        <v-avatar class="d-block mx-auto" size="36"><v-btn icon @click="subDrawer = 'graph'"><v-icon>mdi-graph-outline</v-icon></v-btn></v-avatar>
       </v-navigation-drawer>
       <!-- subDrawer -->
       <keep-alive>
         <div class="pl-14">
           <!-- Account -->
           <div v-if="subDrawer == 'account'">
-            <account-form></account-form>
+            <account-form
+              :accountModel="accountModel"
+            ></account-form>
           </div>
           <!-- Search -->
           <div v-if="subDrawer == 'search'">
@@ -62,6 +63,7 @@
               :grpahArticleName="null"
               :graphUpperLevel="graphUpperLevel"
               :graphLowerLevel="graphLowerLevel"
+              @overall-clicked="openGraphOverall"
               @article-model-changed="changeGraphArticleModel"
               @upper-level-changed="changeGraphUpperLevel"
               @lower-level-changed="changeGraphLowerLevel"
@@ -77,6 +79,7 @@
         :graphUpperLevel="graphUpperLevel"
         :graphLowerLevel="graphLowerLevel"
         @article-model-changed="changeGraphArticleModel"
+        @account-model-changed="changeAccountModel"
        ></router-view>
     </v-main>
   </v-app>
@@ -92,6 +95,8 @@ import ArticleService from '@/services/article-service'
 import SymbolService from '@/services/symbol-service'
 import ArticleModel from '@/models/article-model'
 import VueCookies from 'vue-cookies'
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 Vue.use(VueCookies)
 
 export default Vue.extend({
@@ -121,7 +126,8 @@ export default Vue.extend({
     search: null,
     graphArticleModel: { name: null } as ArticleModel,
     graphUpperLevel: 0,
-    graphLowerLevel: 0
+    graphLowerLevel: 0,
+    accountModel: null
   }),
   computed: {
     filterdArticles () {
@@ -137,16 +143,26 @@ export default Vue.extend({
     })
   },
   methods: {
+    openGraphOverall () {
+      this.graphArticleModel = null
+      if (this.$route.name !== 'Graph') {
+        this.$router.push({ name: 'Graph' })
+      }
+    },
     changeGraphArticleModel (newVal) {
-      this.$router.push({ name: 'Graph' })
       this.graphArticleModel = newVal
+      if (this.$route.name !== 'Graph') {
+        this.$router.push({ name: 'Graph' })
+      }
     },
     changeGraphUpperLevel (newVal) {
       this.graphUpperLevel = newVal
     },
     changeGraphLowerLevel (newVal) {
-      console.log('lower')
       this.graphLowerLevel = newVal
+    },
+    changeAccountModel (newVal) {
+      this.accountModel = newVal
     }
   },
   watch: {

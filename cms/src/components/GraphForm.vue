@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn block>Reset</v-btn>
+    <v-btn block @click="$emit('overall-clicked')" >Overall</v-btn>
     <v-container>
       <v-row>
         <v-col>
