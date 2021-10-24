@@ -29,6 +29,7 @@ gensim = "*"
 emparser = {path = "./emparser"}
 python-levenshtein = "*"
 pydot = "*"
+pyjwt = ">=2, <3"
 djangorestframework = "*"
 django-cors-headers = "*"
 django-rest-framework = "*"

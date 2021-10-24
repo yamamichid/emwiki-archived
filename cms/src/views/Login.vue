@@ -27,6 +27,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import AccountService from '@/services/account-service'
+import AccountModel from '@/models/account-model'
 
 export default Vue.extend({
   name: 'Login',
@@ -43,7 +44,8 @@ export default Vue.extend({
   methods: {
     login (username: string, password: string) {
       if (this.$refs.form.validate()) {
-        AccountService.login(username, password)
+        const accountModel: AccountModel = AccountService.login(username, password)
+        this.$emit('login', accountModel)
       }
     },
     logout () {

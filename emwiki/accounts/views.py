@@ -17,9 +17,33 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.shortcuts import redirect, resolve_url
 from django.core.signing import SignatureExpired, BadSignature, loads, dumps
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 
 from .models import User
+from .serializers import UserSerializer
+from rest_framework import generics, permissions, exceptions, views, response
+
+
+class IsMePermission(permissions.IsAuthenticated):
+    def has_object_permission(self, request, view, obj, *args, **kwargs):
+        if super().has_object_permission(*args, **kwargs):
+            return request.user.pk == obj.pk
+        else:
+            return False
+
+
+class UserView(views.APIView):
+    queryset = User.objects.all()
+    permissions = [IsMePermission, ]
+
+    def get(self, request):
+        if request.user.is_anonymous:
+            return HttpResponse('Unauthorized', status=401)
+        else:
+            return response.Response({
+                'username': request.user.username,
+                'email': request.user.email
+            })
 
 
 class SignUpView(generic.CreateView):

@@ -22,10 +22,10 @@
         mini-variant
       >
         <v-avatar
-          class="d-block text-center mx-auto mt-4"
+          class="d-block mx-auto"
           size="36"
           @click="subDrawer = 'account'"
-        ><v-icon>mdi-account</v-icon></v-avatar>
+        ><v-btn icon><v-icon>mdi-account</v-icon></v-btn></v-avatar>
 
         <v-divider class="mx-3 my-5"></v-divider>
 
@@ -80,6 +80,7 @@
         :graphLowerLevel="graphLowerLevel"
         @article-model-changed="changeGraphArticleModel"
         @account-model-changed="changeAccountModel"
+        @login="changeAccountModel"
        ></router-view>
     </v-main>
   </v-app>
@@ -96,6 +97,7 @@ import SymbolService from '@/services/symbol-service'
 import ArticleModel from '@/models/article-model'
 import VueCookies from 'vue-cookies'
 import Vuelidate from 'vuelidate'
+import axios, { AxiosInstance } from 'axios'
 Vue.use(Vuelidate)
 Vue.use(VueCookies)
 
